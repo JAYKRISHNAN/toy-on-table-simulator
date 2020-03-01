@@ -1,3 +1,15 @@
+## Running the app
+
+- Give the input in the correct format in the file `input.txt` in the root directory of the app
+- To run program, run  `ruby -I lib bin/toy_on_table input.txt output.txt`
+- Output is written to the file `output.txt` in the root directory of the app
+
+
+## Running the tests
+- First, run `bundle install`
+- Then, run `bundle exec rspec`
+
+
 # ToyOnTable
 
 - The application is a simulation of a toy robot moving on a square tabletop, of dimensions 5 units x 5 units.
@@ -37,14 +49,3 @@ MOVE
 REPORT
 Output: 3,3,NORTH
 ```
-
-## Running the app
-
-- Give the input in the correct format in the file `input.txt` in the root directory of the app
-- To run program, run  `ruby -I lib bin/toy_on_table input.txt output.txt`
-- Output is written to the file `output.txt` in the root directory of the app
-
-
-## Running the tests
-- First, run `bundle install`
-- Then, run `bundle exec rspec`
