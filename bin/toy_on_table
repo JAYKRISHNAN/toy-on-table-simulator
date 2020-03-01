@@ -1,0 +1,2 @@
+require 'toy_on_table/runner'
+ToyOnTable::Runner.new(input_file_path: ARGV[0], output_file_path: ARGV[1]).run
