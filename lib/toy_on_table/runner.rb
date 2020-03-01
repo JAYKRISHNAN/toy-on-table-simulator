@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'fileutils'
 require 'pry-byebug'
 
@@ -17,7 +18,7 @@ module ToyOnTable
       @table = Models::Table.new(Constants::TABLE_ROW_COUNT, Constants::TABLE_COLUMN_COUNT)
       @toy = Models::Toy.new
       @toy.table = @table
-      @toy.reporting_channel = @write_output_service
+      @toy.reporting_target = @write_output_service
     end
 
     def run
@@ -27,7 +28,7 @@ module ToyOnTable
 
     private
 
-    def setup_output_file output_file_path
+    def setup_output_file(output_file_path)
       FileUtils.touch(output_file_path)
       File.truncate(output_file_path, 0)
     end
@@ -38,7 +39,6 @@ module ToyOnTable
 
     def execute_commands(commands)
       commands.each do |command|
-        puts @toy.send(:reporting_data) if (@toy.instance_variable_get(:@position) && @toy.instance_variable_get(:@direction))
         if command.validate
           command.format_arguments!
           @toy.execute command

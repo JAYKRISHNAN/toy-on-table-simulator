@@ -10,11 +10,10 @@ module ToyOnTable
       end
 
       def read
-        commands = []
-        File.readlines(File.join(File.dirname(__FILE__), "../../../#{@file_path}")).each_with_index do |line, index|
-          commands << Models::Command.new(line, index)
+        path = File.join(File.dirname(__FILE__), "../../../#{@file_path}")
+        File.readlines(path).each_with_index.map do |line, index|
+          Models::Command.new(line, index)
         end
-        commands
       end
     end
   end

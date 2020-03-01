@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pry-byebug'
 require_relative '../services/logger'
 require_relative '../exceptions'
@@ -25,7 +27,7 @@ module ToyOnTable
 
       def format_arguments!
         unless arguments.empty?
-          @arguments = send("format_#{name}_command_arguments")
+          @arguments = send("formatted_#{name}_command_arguments")
         end
       end
 
@@ -36,7 +38,7 @@ module ToyOnTable
         raw_arguments = input_line.split(' ')[1]
 
         @name = raw_name.downcase.to_sym
-        @arguments = raw_arguments ? raw_arguments.split(",") : []
+        @arguments = raw_arguments ? raw_arguments.split(',') : []
       end
 
       def valid_command_names
@@ -44,10 +46,22 @@ module ToyOnTable
       end
 
       def validate_name
-        if valid_command_names.include?(name)
+        validate_with_raising_exception(Exceptions::InvalidCommand) { valid_command_names.include?(name) }
+      end
+
+      def validate_no_arguments
+        validate_with_raising_exception(Exceptions::InvalidArguments) { @arguments.empty? }
+      end
+
+      def validate_place_command_arguments
+        validate_with_raising_exception(Exceptions::InvalidArguments) { valid_place_command_arguments? }
+      end
+
+      def validate_with_raising_exception(exception_class)
+        if yield
           true
         else
-          raise Exceptions::InvalidCommand, self
+          raise exception_class, self
           false
         end
       end
@@ -57,24 +71,6 @@ module ToyOnTable
           validate_no_arguments
         else
           send("validate_#{name}_command_arguments")
-        end
-      end
-
-      def validate_no_arguments
-        if @arguments.empty?
-          true
-        else
-          raise Exceptions::InvalidArguments, self
-          false
-        end
-      end
-
-      def validate_place_command_arguments
-        if valid_place_command_arguments?
-          true
-        else
-          raise Exceptions::InvalidArguments, self
-          false
         end
       end
 
@@ -95,7 +91,7 @@ module ToyOnTable
         VALID_DIRECTIONS.include?(direction.downcase.to_sym)
       end
 
-      def format_place_command_arguments
+      def formatted_place_command_arguments
         x_coordinate, y_coordinate, direction = arguments
         [x_coordinate.to_i, y_coordinate.to_i, direction.downcase.to_sym]
       end

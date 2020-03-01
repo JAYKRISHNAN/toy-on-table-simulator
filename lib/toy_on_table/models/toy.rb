@@ -9,13 +9,13 @@ require 'pry-byebug'
 module ToyOnTable
   module Models
     class Toy
-      attr_accessor :table, :reporting_channel
+      attr_accessor :table, :reporting_target
 
       def initialize
         @position = nil
         @direction = nil
         @table = nil
-        @reporting_channel = nil
+        @reporting_target = nil
       end
 
       def execute(command)
@@ -33,7 +33,7 @@ module ToyOnTable
       end
 
       def report
-        reporting_channel.append reporting_data
+        reporting_target.append reporting_data
       end
 
       def on_table?
@@ -112,7 +112,7 @@ module ToyOnTable
         table.include? position
       end
 
-      def log_message(_meesage)
+      def log_message(message)
         Services::Logger.log message
       end
     end
