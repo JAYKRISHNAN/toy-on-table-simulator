@@ -8,15 +8,14 @@
 
 ## Test cases
 
-- A comprehensive suite of test cases are written in the automated test suite here -https://github.com/JAYKRISHNAN/toy-on-table-simulator/blob/master/spec/toy_on_table/runner_spec.rb#L44-L121
-
+- A comprehensive suite of test cases are written in the automated test suite [here](https://github.com/JAYKRISHNAN/toy-on-table-simulator/blob/master/spec/toy_on_table/runner_spec.rb#L44-L121)
 
 ## Running the test suite
 - First, run `bundle install`
 - Then, run `bundle exec rspec`
 
 
-# ToyOnTable
+# Toy On Table
 
 - The application is a simulation of a toy robot moving on a square tabletop, of dimensions 5 units x 5 units.
 - There are no other obstructions on the table surface.
