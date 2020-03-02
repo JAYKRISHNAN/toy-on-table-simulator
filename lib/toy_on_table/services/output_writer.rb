@@ -12,9 +12,9 @@ module ToyOnTable
       def append(content)
         path = File.join(File.dirname(__FILE__), "../../../#{file_path}")
         File.open(path, 'a') do |file|
-          file.write content
+          file.puts content
         end
       end
-   end
+    end
   end
 end

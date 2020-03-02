@@ -6,7 +6,7 @@ module ToyOnTable
   module Models
     class Table
       attr_accessor :row_count, :column_count
-      
+
       def initialize(row_count, column_count)
         @row_count = row_count
         @column_count = column_count

@@ -13,7 +13,7 @@ module ToyOnTable
 
       attr_reader :name, :arguments, :index
 
-      def initialize(raw_input_line, index)
+      def initialize(raw_input_line, index = nil)
         set_name_and_arguments!(raw_input_line)
         @index = index
       end
@@ -26,19 +26,19 @@ module ToyOnTable
       end
 
       def format_arguments!
-        unless arguments.empty?
-          @arguments = send("formatted_#{name}_command_arguments")
-        end
+        return if arguments.empty?
+
+        @arguments = send("formatted_#{name}_command_arguments")
       end
 
       private
 
       def set_name_and_arguments!(input_line)
         raw_name = input_line.split(' ')[0]
-        raw_arguments = input_line.split(' ')[1]
+        arguments = input_line.split(' ')[1]
 
         @name = raw_name.downcase.to_sym
-        @arguments = raw_arguments ? raw_arguments.split(',') : []
+        @arguments = arguments ? arguments.split(',').map(&:strip) : []
       end
 
       def valid_command_names
@@ -58,12 +58,9 @@ module ToyOnTable
       end
 
       def validate_with_raising_exception(exception_class)
-        if yield
-          true
-        else
-          raise exception_class, self
-          false
-        end
+        return true if yield
+
+        raise exception_class, self
       end
 
       def validate_arguments
@@ -84,7 +81,7 @@ module ToyOnTable
       end
 
       def positive_integer?(variable)
-        variable.to_i.to_s == variable
+        (variable.to_i.to_s == variable) && variable.to_i.positive?
       end
 
       def valid_direction?(direction)

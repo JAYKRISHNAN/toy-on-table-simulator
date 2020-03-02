@@ -9,13 +9,11 @@ require 'pry-byebug'
 module ToyOnTable
   module Models
     class Toy
-      attr_accessor :table, :reporting_target
+      attr_accessor :position, :direction, :table, :reporting_target
 
-      def initialize
-        @position = nil
-        @direction = nil
-        @table = nil
-        @reporting_target = nil
+      def initialize(table:, reporting_target:)
+        @table = table
+        @reporting_target = reporting_target
       end
 
       def execute(command)
@@ -29,7 +27,11 @@ module ToyOnTable
       private
 
       def executable?(command)
-        on_table? || (command.name == :place)
+        on_table? || can_be_executed_without_being_on_table?(command)
+      end
+
+      def can_be_executed_without_being_on_table?(command)
+        (command.name == :place) || (command.name == :report)
       end
 
       def report
@@ -41,7 +43,11 @@ module ToyOnTable
       end
 
       def reporting_data
-        [@position.x_coordinate, @position.y_coordinate, @direction.to_s.upcase].join(',')
+        if on_table?
+          [@position.x_coordinate, @position.y_coordinate, @direction.to_s.upcase].join(',')
+        else
+          'Not placed on table'
+        end
       end
 
       def place(arguments)

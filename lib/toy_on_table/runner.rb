@@ -13,12 +13,9 @@ module ToyOnTable
     def initialize(input_file_path:, output_file_path:)
       setup_output_file output_file_path
       @read_input_service = Services::InputReader.new(input_file_path)
-      @write_output_service = Services::OutputWriter.new(output_file_path)
-
-      @table = Models::Table.new(Constants::TABLE_ROW_COUNT, Constants::TABLE_COLUMN_COUNT)
-      @toy = Models::Toy.new
-      @toy.table = @table
-      @toy.reporting_target = @write_output_service
+      write_output_service = Services::OutputWriter.new(output_file_path)
+      table = Models::Table.new(Constants::TABLE_ROW_COUNT, Constants::TABLE_COLUMN_COUNT)
+      @toy = Models::Toy.new(table: table, reporting_target: write_output_service)
     end
 
     def run

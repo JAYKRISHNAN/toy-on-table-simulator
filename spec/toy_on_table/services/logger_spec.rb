@@ -9,5 +9,14 @@ describe ToyOnTable::Services::Logger do
 
       expect { logger.log('hi') }.to output("hi\n").to_stdout
     end
+
+    it 'does not log the content of configured to skip logging' do
+      logger = ToyOnTable::Services::Logger
+      logger.skip_logging = true
+
+      expect { logger.log('hi') }.not_to output("hi\n").to_stdout
+
+      logger.skip_logging = false
+    end
   end
 end

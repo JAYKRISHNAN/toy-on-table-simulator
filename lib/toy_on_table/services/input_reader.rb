@@ -14,7 +14,7 @@ module ToyOnTable
       def read
         path = File.join(File.dirname(__FILE__), "../../../#{file_path}")
         File.readlines(path).each_with_index.map do |line, index|
-          Models::Command.new(line, index)
+          Models::Command.new(line.strip, index)
         end
       end
     end
