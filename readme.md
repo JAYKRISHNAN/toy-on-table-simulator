@@ -1,11 +1,17 @@
 ## Running the app
-
+- Open the terminal
+- Clone the app `git clone git@github.com:JAYKRISHNAN/toy-on-table-simulator.git`
+- Go to the root directory of the app `cd toy-on-table-simulator/`
 - Give the input in the correct format in the file `input.txt` in the root directory of the app
-- To run program, run  `ruby -I lib bin/toy_on_table input.txt output.txt`
+- Run program, run  `ruby -I lib bin/toy_on_table input.txt output.txt`
 - Output is written to the file `output.txt` in the root directory of the app
 
+## Test cases
 
-## Running the tests
+- A comprehensive suite of test cases are written in the automated test suite here -https://github.com/JAYKRISHNAN/toy-on-table-simulator/blob/master/spec/toy_on_table/runner_spec.rb#L44-L121
+
+
+## Running the test suite
 - First, run `bundle install`
 - Then, run `bundle exec rspec`
 
