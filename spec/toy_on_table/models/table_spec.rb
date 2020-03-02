@@ -34,6 +34,12 @@ describe ToyOnTable::Models::Table do
 
         expect(table.include?(table_cell)).to be_falsey
       end
+
+      it 'returns false if the column of given cell is outside the table' do
+        table_cell = ToyOnTable::Models::TableCell.new(-3, -8)
+
+        expect(table.include?(table_cell)).to be_falsey
+      end
     end
   end
 end
