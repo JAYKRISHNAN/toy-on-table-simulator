@@ -14,6 +14,9 @@
 - First, run `bundle install`
 - Then, run `bundle exec rspec`
 
+## High level code documentation
+- [here](https://github.com/JAYKRISHNAN/toy-on-table-simulator/blob/master/documentation.txt)
+
 
 # Toy On Table
 

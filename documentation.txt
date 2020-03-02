@@ -1,0 +1,84 @@
+ToyOnTable::Models::Command
+  .initialize
+    sets the index, name and the arguments of the command given raw input line - case without arguments
+    sets the index, name and the arguments of the command given raw input line - case with arguments
+    does not raise any error if the index is not given
+  #format_arguments
+    does not raise an error if there are no arguments
+    for commands with arguments
+      PLACE command
+        sets the coordinates as integer and direction as symbol
+  #validate
+    valid
+      returns true if the command is a valid one
+    invalid
+      returns false if the command is an invalid one
+      logs warning message if the command name is an invalid
+      logs warning message if the command does not expect arguments and arguments are given
+      logs warning message if incorrect arguments are given to the command
+    PLACE command
+      returns true if all the arguments are valid
+      returns false if argument count or any argument is incorrect
+
+ToyOnTable::Models::TableCell
+  has aliases row_number and column number for x and y coordinates respectively
+  .initialize
+    sets x and y coordinate
+
+ToyOnTable::Models::Table
+  .initialize
+    sets row_count and column_count
+  #include?
+    returns true if the given cell is inside the table
+    outside table
+      returns false if the row of given cell is outside the table
+      returns false if the column of given cell is outside the table
+      returns false if the column of given cell is outside the table
+
+ToyOnTable::Models::Toy
+  .initialize
+    sets the table and reporting channel
+  .execute
+    executes the given command
+    ignores any command that makes it fall of table
+    logs a warning message if the commad makes toy fall of table
+    ignores all commands until a valid PLACE command is given to it
+    PLACE command
+      places the toy in given position and orientation
+      ignores the place command if it makes toy fall of table
+    LEFT command
+      rotates toy 90 degreed to the left
+    RIGHT command
+      rotates toy 90 degreed to the left
+    MOVE command
+      moves the toy one step in the current direction
+      ignores the comand if it makes it fall off the table
+    REPORT command
+      reports the current state
+      reports state if it is not on any table
+
+ToyOnTable::Runner
+  .initialize
+    sets up the required instance variables correctly
+  #run
+    reads the input data, processes the input and write the output
+    validates commands and only executes valid commands
+    multiple test cases
+      works as expected in all cases
+
+ToyOnTable::Services::InputReader
+  .initialize
+    sets file_path
+  .read
+    reads file line by line, strips unwanted characters from each line and returns a list of commands with given input lines
+
+ToyOnTable::Services::Logger
+  .log
+    prints the given content to console in a new line
+    does not log the content of configured to skip logging
+
+ToyOnTable::Services::OutputWriter
+  .initialize
+    sets file_path
+  .append
+    appends the given string to the file
