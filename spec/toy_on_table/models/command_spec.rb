@@ -84,7 +84,7 @@ describe ToyOnTable::Models::Command do
 
     context 'PLACE command' do
       it 'returns true if all the arguments are valid' do
-        command = ToyOnTable::Models::Command.new('PLACE 2,3,EAST', 2)
+        command = ToyOnTable::Models::Command.new('PLACE 0,0,EAST', 2)
 
         expect(command.validate).to be_truthy
       end

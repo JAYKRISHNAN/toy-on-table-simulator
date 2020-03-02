@@ -75,13 +75,13 @@ module ToyOnTable
         x_coordinate, y_coordinate, direction = arguments
 
         (arguments.count == 3) &&
-          positive_integer?(x_coordinate) &&
-          positive_integer?(y_coordinate) &&
+          non_negative_integer?(x_coordinate) &&
+          non_negative_integer?(y_coordinate) &&
           valid_direction?(direction)
       end
 
-      def positive_integer?(variable)
-        (variable.to_i.to_s == variable) && variable.to_i.positive?
+      def non_negative_integer?(variable)
+        (variable.to_i.to_s == variable) && !variable.to_i.negative?
       end
 
       def valid_direction?(direction)
