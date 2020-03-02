@@ -35,9 +35,9 @@ module ToyOnTable
 
       def set_name_and_arguments!(input_line)
         raw_name = input_line.split(' ')[0]
-        arguments = input_line.split(' ')[1]
+        arguments = input_line.split(' ').drop(1).join(' ')
 
-        @name = raw_name.downcase.to_sym
+        @name = raw_name.downcase.strip.to_sym
         @arguments = arguments ? arguments.split(',').map(&:strip) : []
       end
 

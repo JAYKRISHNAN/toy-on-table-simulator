@@ -38,5 +38,104 @@ describe ToyOnTable::Runner do
 
       File.delete('spec_output.txt')
     end
+
+    context 'multiple test cases' do
+      it 'works as expected in all cases' do
+        test_cases = [
+          {
+            input_lines: [],
+            expected_output_lines: []
+          },
+          {
+            input_lines: ['PLACE 0,0,NORTH', 'LEFT', 'REPORT'],
+            expected_output_lines: ['0,0,WEST']
+          },
+          {
+            input_lines: ['PLACE 0,0,NORTH', 'MOVE', 'REPORT'],
+            expected_output_lines: ['0,1,NORTH']
+          },
+          {
+            input_lines: ['INVALID_COMMAND'],
+            expected_output_lines: []
+          },
+          {
+            input_lines: ['PLACE 9,9,NORTH', 'REPORT'],
+            expected_output_lines: ['Not placed on table']
+          },
+          {
+            input_lines: ['PLACE 2,3,NORTH', 'REPORT', 'MOVE', 'REPORT'],
+            expected_output_lines: ['2,3,NORTH', '2,4,NORTH']
+          },
+          {
+            input_lines: ['PLACE 2,3,NORTH', 'REPORT', 'MOVE', 'REPORT', 'PLACE 12,13,NORTH', 'REPORT'],
+            expected_output_lines: ['2,3,NORTH', '2,4,NORTH', '2,4,NORTH']
+          },
+          {
+            input_lines: ['PLACE 2,3,NORTH', 'REPORT', 'MOVE', 'REPORT', 'PLACE 12,13,NORTH', 'REPORT', 'PLACE 1,1,NORTH', 'REPORT'],
+            expected_output_lines: ['2,3,NORTH', '2,4,NORTH', '2,4,NORTH', '1,1,NORTH']
+          },
+          {
+            input_lines: ['PLACE 2,3,NORTH', 'REPORT', 'INVALID', 'REPORT', 'PLACE 2,3,NORTHEAST', 'REPORT'],
+            expected_output_lines: ['2,3,NORTH', '2,3,NORTH', '2,3,NORTH']
+          },
+          {
+            input_lines: ['PLACE 0,0,EAST', 'MOVE', 'MOVE', 'LEFT', 'MOVE', 'LEFT', 'MOVE', 'RIGHT', 'MOVE', 'REPORT'],
+            expected_output_lines: ['1,2,NORTH']
+          },
+          {
+            input_lines: ['PLACE 0,0,NORTH', 'MOVE', 'MOVE', 'LEFT', 'MOVE', 'LEFT', 'MOVE', 'MOVE', 'REPORT'],
+            expected_output_lines: ['0,0,SOUTH']
+          },
+          {
+            input_lines: ['PLACE 0,0,NORTH', 'MOVE', 'MOVE', 'LEFT', 'MOVE', 'LEFT', 'MOVE', 'MOVE', 'LEFT', 'REPORT'],
+            expected_output_lines: ['0,0,EAST']
+          },
+          {
+            input_lines: ['PLACE 1,2,NORTH', 'MOVE', 'MOVE', 'LEFT', 'MOVE', 'RIGHT', 'MOVE', 'MOVE', 'LEFT', 'REPORT'],
+            expected_output_lines: ['0,4,WEST']
+          },
+          {
+            input_lines: ['PLACE 4,4,EAST', 'MOVE', 'MOVE', 'LEFT', 'REPORT'],
+            expected_output_lines: ['4,4,NORTH']
+          },
+          {
+            input_lines: ['PLACE 4,4,NORTH', 'MOVE', 'MOVE', 'LEFT', 'REPORT'],
+            expected_output_lines: ['4,4,WEST']
+          },
+          {
+            input_lines: ['PLACE 4,2, EAST', 'MOVE', 'REPORT'],
+            expected_output_lines: ['4,2,EAST']
+          },
+          {
+            input_lines: ['PLACE 2,0, SOUTH', 'MOVE', 'REPORT'],
+            expected_output_lines: ['2,0,SOUTH']
+          },
+          {
+            input_lines: ['PLACE 2,4, NORTH', 'MOVE', 'REPORT'],
+            expected_output_lines: ['2,4,NORTH']
+          },
+          {
+            input_lines: ['PLACE 0,4,WEST', 'MOVE', 'REPORT'],
+            expected_output_lines: ['0,4,WEST']
+          }
+        ]
+
+        test_cases.each do |test_case|
+          runner = ToyOnTable::Runner.new(input_file_path: 'random', output_file_path: 'spec_output.txt')
+
+          input_lines = test_case[:input_lines]
+          expected_output_lines = test_case[:expected_output_lines]
+          commands = input_lines.each_with_index.map do |line, index|
+            ToyOnTable::Models::Command.new(line.strip, index)
+          end
+          runner.send(:execute_commands, commands)
+
+          computed_output_lines = File.readlines('spec_output.txt').map(&:strip)
+          expect(computed_output_lines).to eq expected_output_lines
+
+          File.delete('spec_output.txt')
+        end
+      end
+    end
   end
 end
