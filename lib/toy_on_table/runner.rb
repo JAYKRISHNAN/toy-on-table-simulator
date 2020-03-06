@@ -36,10 +36,14 @@ module ToyOnTable
         command = Models::Command.new(line.strip, command_index)
         next unless command.validate
 
-        command.format_arguments!
-        @toy.execute(command)
+        execute_command command
         command_index += 1
       end
+    end
+
+    def execute_command(command)
+      command.format_arguments!
+      @toy.execute(command)
     end
   end
 end
