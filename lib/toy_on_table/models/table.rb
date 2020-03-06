@@ -12,10 +12,20 @@ module ToyOnTable
         @column_count = column_count
       end
 
-      # not <= because array indices start with 0 not 1
       def include?(table_cell)
-        (table_cell.row_number < @row_count) && (table_cell.row_number >= 0) &&
-          (table_cell.column_number < @column_count) && (table_cell.column_number >= 0)
+        within_row_limts?(table_cell) && within_column_limits?(table_cell)
+      end
+
+      private
+
+      # not <= because array indices start with 0 not 1
+      def within_row_limts?(table_cell)
+        (table_cell.row_number >= 0) && (table_cell.row_number < @row_count)
+      end
+
+      # not <= because array indices start with 0 not 1
+      def within_column_limits?(table_cell)
+        (table_cell.column_number >= 0) && (table_cell.column_number < @column_count)
       end
     end
   end

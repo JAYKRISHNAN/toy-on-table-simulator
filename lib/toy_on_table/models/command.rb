@@ -46,15 +46,21 @@ module ToyOnTable
       end
 
       def validate_name
-        validate_with_raising_exception(Exceptions::InvalidCommand) { valid_command_names.include?(name) }
+        validate_with_raising_exception(Exceptions::InvalidCommand) do
+          valid_command_names.include?(name)
+        end
       end
 
       def validate_no_arguments
-        validate_with_raising_exception(Exceptions::InvalidArguments) { @arguments.empty? }
+        validate_with_raising_exception(Exceptions::InvalidArguments) do
+          @arguments.empty?
+        end
       end
 
       def validate_place_command_arguments
-        validate_with_raising_exception(Exceptions::InvalidArguments) { valid_place_command_arguments? }
+        validate_with_raising_exception(Exceptions::InvalidArguments) do
+          valid_place_command_arguments?
+        end
       end
 
       def validate_with_raising_exception(exception_class)
@@ -81,7 +87,7 @@ module ToyOnTable
       end
 
       def non_negative_integer?(variable)
-        (variable.to_i.to_s == variable) && !variable.to_i.negative?
+        (variable.to_i.to_s == variable) && (!variable.to_i.negative?)
       end
 
       def valid_direction?(direction)
