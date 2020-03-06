@@ -13,22 +13,17 @@ describe ToyOnTable::Services::InputReader do
   end
 
   describe '.read' do
-    it 'reads file line by line, strips unwanted characters from each line and returns a list of commands with given input lines' do
+    it 'returns a lazy iterator that iterates over the input lines' do
       file_path = 'test.txt'
       commands = ['TEST COMMAND 1', 'TEST COMMAND 2']
       File.open(file_path, 'w+') do |file|
         commands.each { |element| file.puts(element) }
       end
       reader = ToyOnTable::Services::InputReader.new(file_path)
+      input_enumerator = reader.input_enumerator
 
-      expect(ToyOnTable::Models::Command).to receive(:new).with('TEST COMMAND 1', 0).and_call_original
-      expect(ToyOnTable::Models::Command).to receive(:new).with('TEST COMMAND 2', 1).and_call_original
-
-      commands = reader.read
-
-      commands.each do |command|
-        expect(command).to be_a ToyOnTable::Models::Command
-      end
+      expect(input_enumerator.next).to eq "TEST COMMAND 1\n"
+      expect(input_enumerator.next).to eq "TEST COMMAND 2\n"
 
       File.delete('test.txt')
     end

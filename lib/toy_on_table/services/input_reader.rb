@@ -11,11 +11,9 @@ module ToyOnTable
         @file_path = file_path
       end
 
-      def read
+      def input_enumerator
         path = File.join(File.dirname(__FILE__), "../../../#{file_path}")
-        File.readlines(path).each_with_index.map do |line, index|
-          Models::Command.new(line.strip, index)
-        end
+        File.open(path).each_line.lazy
       end
     end
   end

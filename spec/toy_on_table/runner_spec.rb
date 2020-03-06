@@ -124,11 +124,10 @@ describe ToyOnTable::Runner do
           runner = ToyOnTable::Runner.new(input_file_path: 'random', output_file_path: 'spec_output.txt')
 
           input_lines = test_case[:input_lines]
+          input_enumerator = input_lines.each
           expected_output_lines = test_case[:expected_output_lines]
-          commands = input_lines.each_with_index.map do |line, index|
-            ToyOnTable::Models::Command.new(line.strip, index)
-          end
-          runner.send(:execute_commands, commands)
+
+          runner.send(:process_input, input_enumerator)
 
           computed_output_lines = File.readlines('spec_output.txt').map(&:strip)
           expect(computed_output_lines).to eq expected_output_lines

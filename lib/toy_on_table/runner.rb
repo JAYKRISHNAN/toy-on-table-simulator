@@ -19,8 +19,7 @@ module ToyOnTable
     end
 
     def run
-      commands = read_input
-      execute_commands commands
+      process_input(@read_input_service.input_enumerator)
     end
 
     private
@@ -30,16 +29,16 @@ module ToyOnTable
       File.truncate(output_file_path, 0)
     end
 
-    def read_input
-      @read_input_service.read
-    end
+    def process_input(input_enumerator)
+      command_index = 0
+      loop do
+        line = input_enumerator.next
+        command = Models::Command.new(line.strip, command_index)
+        next unless command.validate
 
-    def execute_commands(commands)
-      commands.each do |command|
-        if command.validate
-          command.format_arguments!
-          @toy.execute command
-        end
+        command.format_arguments!
+        @toy.execute(command)
+        command_index += 1
       end
     end
   end

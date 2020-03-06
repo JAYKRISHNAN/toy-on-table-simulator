@@ -87,7 +87,7 @@ module ToyOnTable
       end
 
       def non_negative_integer?(variable)
-        (variable.to_i.to_s == variable) && (!variable.to_i.negative?)
+        (variable.to_i.to_s == variable) && !variable.to_i.negative?
       end
 
       def valid_direction?(direction)
